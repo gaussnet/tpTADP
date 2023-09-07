@@ -1,3 +1,3 @@
-# Trabajo Práctico Técnicas avanzadas de programación 2c 2023
+# Trabajo Práctico Técnicas avanzadas de programación 2° cuat. 2023
 
 Completar
