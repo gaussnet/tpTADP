@@ -16,7 +16,14 @@ const evaluacionesGetId= (req, res=response) => {
     });
 }
 
+const evaluacionesPost= (req, res=response) => {
+    const resultado= req.body;
+    console.log(resultado);
+    res.send(resultado).end;
+}
+
 module.exports= {
     evaluacionesGet,
-    evaluacionesGetId
+    evaluacionesGetId,
+    evaluacionesPost
 }

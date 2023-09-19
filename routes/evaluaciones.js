@@ -1,5 +1,5 @@
 const express= require('express');
-const { evaluacionesGet, evaluacionesGetId } = require('../controllers/evaluaciones');
+const { evaluacionesGet, evaluacionesGetId, evaluacionesPost } = require('../controllers/evaluaciones');
 
 const router= express.Router();
 
@@ -15,5 +15,6 @@ router.get('/', (req, res) => {
 
 router.get('/', evaluacionesGet);
 router.get('/:id', evaluacionesGetId);
+router.post('/', evaluacionesPost);
 
 module.exports= router;
