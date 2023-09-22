@@ -1,5 +1,5 @@
 const express= require('express');
-const { turnosGet } = require('../controllers/turnos');
+const { turnosGet, turnosPost } = require('../controllers/turnos');
 
 const router= express.Router();
 
@@ -14,5 +14,6 @@ router.get('/', (req, res) => {
 */
 
 router.get('/', turnosGet);
+router.post('/', turnosPost);
 
 module.exports= router;
