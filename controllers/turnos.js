@@ -45,7 +45,37 @@ const turnosPost=async(req, res= response) => {
     //res.send(resultado).end;
 }
 
+const turnosPut=async(req, res= response) => {
+    //console.log('Entro controlador');
+    const {id}= req.params;
+    const {_id, fechaYhora, matricula, ...resto}= req.body;
+
+    const turno= await Turno.findOne({_id:id});
+
+    if(!turno) {
+        return res.status(404).json({
+            msg: 'Turno no existe'
+        });
+    }
+
+    if(turno.confirmado === true) {
+        return res.status(400).json({
+            msg: 'Turno ya reservado'
+        });
+    }
+
+    turno.matricula= matricula;
+    turno.confirmado= true;
+
+    await turno.save();
+
+    res.json(turno);
+
+}
+
+
 module.exports= {
     turnosGet,
-    turnosPost
+    turnosPost,
+    turnosPut
 }
