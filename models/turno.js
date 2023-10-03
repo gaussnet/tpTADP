@@ -16,4 +16,10 @@ const TurnoSchema= Schema({
     }
 });
 
+TurnoSchema.methods.toJSON= function() {
+    const {__v, ...turno}= this.toObject();
+    return turno;
+}
+
+
 module.exports= model('Turno', TurnoSchema);

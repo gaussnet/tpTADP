@@ -8,6 +8,8 @@ class Server {
     constructor() {
         this.app= express();
         this.port= process.env.PORT;
+        this.usuariosPath= '/api/usuarios';
+        this.authPath= '/api/auth';
         this.turnosPath= '/api/turnos';
         this.evaluacionesPath= '/api/evaluaciones';
 
@@ -37,6 +39,8 @@ class Server {
     }
 
     routes() {
+        this.app.use(this.authPath, require('../routes/auth'));
+        this.app.use(this.usuariosPath, require('../routes/usuarios'));
         this.app.use(this.turnosPath, require('../routes/turnos'));
         this.app.use(this.evaluacionesPath, require('../routes/evaluaciones'));
     }

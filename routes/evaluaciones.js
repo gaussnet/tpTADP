@@ -1,19 +1,14 @@
 const express= require('express');
 const { evaluacionesGet, evaluacionesGetId, evaluacionesPost } = require('../controllers/evaluaciones');
+const { validarCampos } = require('../middlewares/validar-campos');
+const { validarJWT } = require('../middlewares/validar-jwt');
 
 const router= express.Router();
 
-//module.exports= router;
-
-/*
-router.get('/', (req, res) => {
-    const data= 'Hola evaluación';
-
-    res.send({data:data});
-})
-*/
-
-router.get('/', evaluacionesGet);
+router.get('/', [
+    validarJWT,
+    validarCampos
+], evaluacionesGet);
 router.get('/:id', evaluacionesGetId);
 router.post('/', evaluacionesPost);
 
