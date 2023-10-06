@@ -4,8 +4,13 @@ const Usuario= require('../models/usuario');
 
 const usuariosGet= async(req, res= response) => {
 
-    const total= await Usuario.countDocuments();
-    const usuarios= await Usuario.find();
+    //const total= await Usuario.countDocuments();
+    //const usuarios= await Usuario.find();
+
+    const [total, usuarios]= await Promise.all([
+        Usuario.countDocuments(),
+        Usuario.find()
+    ])
 
     res.json({
         total,
