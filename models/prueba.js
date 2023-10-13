@@ -4,7 +4,7 @@ const PruebaSchema= Schema({
     tipo: {
         type: String,
         required: [true, 'Tipo es requerida'],
-        enum: ['FRENOS', 'SUSPENSION', 'LUCES', 'MOTOR', 'ALINEACION', 'CONTAMINACION', 'TREN_DELANTERO', 'CINTURONES', 'BALIZAS', 'MATAFUEGO']
+        enum: ['FRENOS', 'SUSPENSION', 'LUCES', 'MOTOR', 'ALINEACION', 'CONTAMINACION', 'TREN_DELANTERO', 'TREN_TRASERO', 'CINTURONES', 'MATAFUEGO']
     },
     puntaje: {
         type: Number,

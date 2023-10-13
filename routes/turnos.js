@@ -1,13 +1,14 @@
 const express= require('express');
 const { check } = require('express-validator');
-const {turnosPost, turnosPut, turnosGetLibres, turnosGetConfirmados } = require('../controllers/turnos');
+const {turnosPost, turnosPut, turnosGetLibres, turnosGetConfirmados, turnosGetConfirmadosPorMatricula } = require('../controllers/turnos');
 const { validarCampos } = require('../middlewares/validar-campos');
 const { validarJWT } = require('../middlewares/validar-jwt');
+const { existeTurnoPorId } = require('../helpers/db-validators');
 
 const router= express.Router();
 
 router.get('/libres', [
-    check('fechaDesde', 'fecha Incorrecta').optional().isISO8601(),
+    //check('fechaDesde', 'fecha Incorrecta').optional().isISO8601(),
     check('fechaHasta', 'fecha Incorrecta').optional().isISO8601(),
     validarCampos
 ], turnosGetLibres);
@@ -16,6 +17,11 @@ router.get('/confirmados', [
     validarJWT,
     validarCampos
 ], turnosGetConfirmados);
+
+router.get('/confirmados/:matricula', [
+    validarJWT,
+    validarCampos
+], turnosGetConfirmadosPorMatricula)
 
 router.post('/', [
     validarJWT,
@@ -27,6 +33,7 @@ router.post('/', [
 
 router.put('/:id', [
     check('id', 'ID invalido').isMongoId(),
+    check('id').custom(existeTurnoPorId),
     check('matricula', 'Matrícula es obligatorio').not().isEmpty(),
     validarCampos
 ], turnosPut);
