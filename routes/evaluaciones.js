@@ -1,6 +1,6 @@
 const express= require('express');
 const { check } = require('express-validator');
-const { evaluacionesGet, evaluacionesGetId, evaluacionesPost } = require('../controllers/evaluaciones');
+const { evaluacionesGet, evaluacionesGetId, evaluacionesGetPorMatricula, evaluacionesPost } = require('../controllers/evaluaciones');
 const { validarCampos } = require('../middlewares/validar-campos');
 const { validarJWT } = require('../middlewares/validar-jwt');
 
@@ -11,10 +11,14 @@ router.get('/', [
     validarCampos
 ], evaluacionesGet);
 
+/*
 router.get('/:id', [
     check('id', 'ID invalido').isMongoId(),
     validarCampos
 ], evaluacionesGetId);
+*/
+
+router.get('/:matricula', evaluacionesGetPorMatricula);
 
 router.post('/', [
     validarJWT,

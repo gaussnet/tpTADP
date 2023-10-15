@@ -12,4 +12,11 @@ const PruebaSchema= Schema({
     }
 });
 
+/*
+PruebaSchema.methods.toJSON= function() {
+    const{_id, ...prueba}= this.toObject();
+    return prueba;
+}
+*/
+
 module.exports= model('Prueba', PruebaSchema);

@@ -66,4 +66,9 @@ const EvaluacionSchema= Schema({
 
 });
 
+EvaluacionSchema.methods.toJSON= function () {
+    const {__v, ...evaluacion}= this.toObject();
+    return evaluacion;
+}
+
 module.exports= model('Evaluacion', EvaluacionSchema);
