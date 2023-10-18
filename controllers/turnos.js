@@ -17,7 +17,7 @@ const turnosGetLibres= async(req, res= response) => {
     const fechaActualString= getFechaActualString();
 
     //const {limite= 0, desde= 0, fechaDesde= fechaActualString, fechaHasta= '2925-12-31'}= req.query;
-    const {limite= 0, desde= 0, fechaHasta= '2925-12-31'}= req.query;
+    const {limite= 0, desde= 0, fechaHasta= process.env.FECHAHASTA}= req.query;
 
     //const query= {$and: [{confirmado:false}, {fechaYhora: {$gte:fechaDesde, $lte:fechaHasta}}]};
     //query= {$and: [{confirmado:false}, {fechaYhora: {$gte:fechaDesde}}, {fechaYhora: {$lte:fechaHasta}}]};
@@ -53,11 +53,16 @@ const turnosGetLibres= async(req, res= response) => {
 }
 
 const turnosGetConfirmados= async(req, res= response) => {
-    const query= {confirmado:true};
+    //const fechaActualString= getFechaActualString();
+    const {limite= 0, desde= 0, fechaDesde= process.env.FECHADESDE, fechaHasta= process.env.FECHAHASTA}= req.query;
+    //const query= {confirmado:true};
+    query= {confirmado:true, fechaYhora: {$gte:fechaDesde, $lte:fechaHasta}};
    
     const [total, turnos]= await Promise.all([
         Turno.countDocuments(query),
         Turno.find(query)
+            .skip(Number(desde))
+            .limit(Number(limite))
             .sort({fechaYhora:1}) 
     ]);
 
@@ -75,12 +80,15 @@ const turnosGetConfirmados= async(req, res= response) => {
 }
 
 const turnosGetConfirmadosPorMatricula= async(req, res= response) => {
+    const {limite= 0, desde= 0, fechaDesde= process.env.FECHADESDE, fechaHasta= process.env.FECHAHASTA}= req.query;
     const {matricula}= req.params;
-    const query= {confirmado:true, matricula:matricula};
+    const query= {confirmado:true, matricula:matricula, fechaYhora: {$gte:fechaDesde, $lte:fechaHasta}};
    
     const [total, turnos]= await Promise.all([
         Turno.countDocuments(query),
         Turno.find(query)
+            .skip(Number(desde))
+            .limit(Number(limite))
             .sort({fechaYhora:1}) 
     ]);
 

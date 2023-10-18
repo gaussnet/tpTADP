@@ -1,7 +1,7 @@
 const {response}= require('express');
 const Evaluacion = require('../models/evaluacion');
 const { getFechaActual, getFechaActualString, getFechaHoraLocal } = require('../helpers/timeUtils');
-const { crearPrueba } = require('./pruebas');
+const { crearPrueba, crearPruebas } = require('./pruebas');
 
 const evaluacionesGet= async(req, res=response) => {
     //const data= 'Hola evaluación';
@@ -11,10 +11,10 @@ const evaluacionesGet= async(req, res=response) => {
     //const fechaActualString= getFechaActualString();
     //console.log(fechaActualString);
 
-    const {limite= 0, desde= 0, fechaHasta= '2925-12-31'}= req.query;
+    const {limite= 0, desde= 0, fechaDesde= process.env.FECHADESDE, fechaHasta= process.env.FECHAHASTA}= req.query;
 
     //const query= {fechaYhora: {$gte:fechaActualString, $lte:fechaHasta}};
-    const query= {fechaYhora: {$lte:fechaHasta}};
+    const query= {fechaYhora: {$gte:fechaDesde, $lte:fechaHasta}};
     //console.log(query);
 
     const [total, evaluaciones]= await Promise.all([
@@ -105,6 +105,12 @@ const evaluacionesGetPorMatricula= async(req, res=response) => {
     }
     */
 
+    if(!evaluacion) {
+        return res.status(404).json({
+            msg: 'No existe evaluación'
+        });
+    }
+
     evaluacion.fechaYhora= getFechaHoraLocal(evaluacion.fechaYhora);
 
     /*
@@ -130,6 +136,7 @@ const evaluacionesPost= async(req, res=response) => {
 
     //const pruebaFrenos= req.body.pruebas.pruebaFrenos;
 
+    /*
     const {
         pruebaFrenos, 
         pruebaSuspension, 
@@ -142,41 +149,55 @@ const evaluacionesPost= async(req, res=response) => {
         pruebaCinturones, 
         pruebaMatafuego
     }= pruebas;
+    */
 
     //console.log(pruebas);
     const {resultado, puntajeTotal}= evaluar(pruebas);
 
+    if(resultado != 'SEGURO' && !observaciones) {
+        return res.status(400).json({
+            msg: 'Debe incluir observaciones'
+        });
+    }
+
+    if(resultado=== 'SEGURO') {
+        observaciones= '';
+    }
+
     //console.log(pruebaFrenos, pruebaSuspension, pruebaLuces, pruebaMotor, pruebaAlineacion, pruebaContaminacion, pruebaTrenDelantero, pruebaTrenTrasero, pruebaCinturones, pruebaMatafuego);
     //const pruebaFrenos= pruebas.pruebaFrenos;
-    const pFrenos= await crearPrueba(pruebaFrenos.tipo, pruebaFrenos.puntaje);
+    //const pFrenos= await crearPrueba(pruebaFrenos.tipo, pruebaFrenos.puntaje);
 
     //const pruebaSuspension= pruebas.pruebaSuspension;
-    const pSuspension= await crearPrueba(pruebaSuspension.tipo, pruebaSuspension.puntaje);
+    //const pSuspension= await crearPrueba(pruebaSuspension.tipo, pruebaSuspension.puntaje);
 
     //const pruebaLuces= pruebas.pruebaLuces;
-    const pLuces= await crearPrueba(pruebaLuces.tipo, pruebaLuces.puntaje);
+    //const pLuces= await crearPrueba(pruebaLuces.tipo, pruebaLuces.puntaje);
 
     //const pruebaMotor= pruebas.pruebaMotor;
-    const pMotor= await crearPrueba(pruebaMotor.tipo, pruebaMotor.puntaje);
+    //const pMotor= await crearPrueba(pruebaMotor.tipo, pruebaMotor.puntaje);
 
     //const pruebaAlineacion= pruebas.pruebaAlineacion;
-   const pAlineacion= await crearPrueba(pruebaAlineacion.tipo, pruebaAlineacion.puntaje);
+   //const pAlineacion= await crearPrueba(pruebaAlineacion.tipo, pruebaAlineacion.puntaje);
 
     //const pruebaContaminacion= pruebas.pruebaContaminacion;
-    const pContaminacion= await crearPrueba(pruebaContaminacion.tipo, pruebaContaminacion.puntaje);
+    //const pContaminacion= await crearPrueba(pruebaContaminacion.tipo, pruebaContaminacion.puntaje);
 
     //const pruebaTrenDelantero= pruebas.pruebaTrenDelantero;
-    const pTrenDelantero= await crearPrueba(pruebaTrenDelantero.tipo, pruebaTrenDelantero.puntaje);
+    //const pTrenDelantero= await crearPrueba(pruebaTrenDelantero.tipo, pruebaTrenDelantero.puntaje);
 
     //const pruebaTrenTrasero= pruebas.pruebaTrenTrasero;
-    const pTrenTrasero= await crearPrueba(pruebaTrenTrasero.tipo, pruebaTrenTrasero.puntaje);
+    //const pTrenTrasero= await crearPrueba(pruebaTrenTrasero.tipo, pruebaTrenTrasero.puntaje);
 
     //const pruebaCinturones= pruebas.pruebaCinturones;
-    const pCinturones= await crearPrueba(pruebaCinturones.tipo, pruebaCinturones.puntaje);
+    //const pCinturones= await crearPrueba(pruebaCinturones.tipo, pruebaCinturones.puntaje);
 
     //const pruebaMatafuego= pruebas.pruebaMatafuego;
-    const pMatafuego= await crearPrueba(pruebaMatafuego.tipo, pruebaMatafuego.puntaje);
+    //const pMatafuego= await crearPrueba(pruebaMatafuego.tipo, pruebaMatafuego.puntaje);
     
+    const pruebasRec= await crearPruebas(pruebas);
+    //console.log(pruebasRec);
+
     /*
     const [pFrenos, pSuspension, pLuces, pMotor, pAlineacion, pContaminacion, pTrenDelantero, pTrenTrasero, pCinturones, pMatafuego]= await Promise.all([
         crearPrueba(pruebaFrenos.tipo, pruebaFrenos.puntaje),
@@ -197,12 +218,15 @@ const evaluacionesPost= async(req, res=response) => {
     //const pSuspension= await crearPrueba(pruebaFrenos.tipo, pruebaFrenos.puntaje);
     //console.log(pFrenos);
 
-if(resultado=== 'SEGURO') {
-    observaciones= '';
-}
+    /*
+    if(resultado=== 'SEGURO') {
+        observaciones= '';
+    }
+    */
 
     const fechaActual= getFechaActual();
 
+    /*
     const evaluacion= new Evaluacion({fechaYhora: fechaActual, matricula, pruebas:{
                                                                                 pruebaFrenos: pFrenos._id, 
                                                                                 pruebaSuspension: pSuspension._id,
@@ -216,6 +240,9 @@ if(resultado=== 'SEGURO') {
                                                                                 pruebaMatafuego: pMatafuego._id
                                                                             }, 
                                     puntajeTotal, resultado, observaciones});
+    */
+
+    const evaluacion= new Evaluacion({fechaYhora: fechaActual, matricula, pruebas: pruebasRec, puntajeTotal, resultado, observaciones});
 
     await evaluacion.save();
 
