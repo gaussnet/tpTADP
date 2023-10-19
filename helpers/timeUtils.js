@@ -1,4 +1,3 @@
-//const subHours = require('date-fns/subHours');
 const subMinutes = require('date-fns/subMinutes');
 
 const getFechaActual= () => {

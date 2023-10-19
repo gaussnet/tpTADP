@@ -8,13 +8,11 @@ const EvaluacionSchema= Schema({
         unique: true
     },
     matricula: {
-        type: String,
-        //required: [true, 'Matricula es requerida']
+        type: String
     },
     pruebas: {
         pruebaFrenos: {
             type: Schema.Types.ObjectId,
-            //type: PruebaSchema,
             ref: 'Prueba'
         },
         pruebaSuspension: {

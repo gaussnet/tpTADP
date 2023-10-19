@@ -7,8 +7,7 @@ const TurnoSchema= Schema({
         unique: true
     },
     matricula: {
-        type: String,
-        //required: [true, 'Matricula es requerida']
+        type: String
     },
     confirmado: {
         type: Boolean,

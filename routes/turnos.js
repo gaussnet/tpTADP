@@ -27,7 +27,6 @@ router.post('/', [
     validarJWT,
     check('fechaYhora', 'Fecha es obligatoria').not().isEmpty(),
     check('fechaYhora', 'Fecha incorrecta').isISO8601(),
-    //check('matricula', 'Matrícula es obligatorio').not().isEmpty(),
     validarCampos
 ], turnosPost);
 
@@ -37,8 +36,6 @@ router.put('/:id', [
     check('matricula', 'Matrícula es obligatorio').not().isEmpty(),
     validarCampos
 ], turnosPut);
-
-//router.put('/:id', turnosPut);
 
 
 module.exports= router;

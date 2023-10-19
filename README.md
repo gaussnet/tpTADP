@@ -17,8 +17,8 @@ npm start
 ```
 6. Ejecutar tests
 ```
-npm test
+npm run test
 ```
 
-### Documentación:
+### Documentación endpoints:
 [Click aquí](https://documenter.getpostman.com/view/23073590/2s9YR85YzV)

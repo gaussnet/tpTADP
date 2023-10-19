@@ -4,9 +4,6 @@ const Usuario= require('../models/usuario');
 
 const usuariosGet= async(req, res= response) => {
 
-    //const total= await Usuario.countDocuments();
-    //const usuarios= await Usuario.find();
-
     const [total, usuarios]= await Promise.all([
         Usuario.countDocuments(),
         Usuario.find()
@@ -25,11 +22,11 @@ const usuariosPost= async (req, res= response) => {
     const usuario= new Usuario({nombre, apellido, password, email});
 
     //cifrar la contraseña
-    const salt= bcryptjs.genSaltSync();     //Cantidad de iteraciones para cifrar. Por defecto está en 10, sino se le puede especificar
+    const salt= bcryptjs.genSaltSync();     
     usuario.password= bcryptjs.hashSync(password, salt);
 
     //Guardar en BD
-    await usuario.save();     //Guarda la instancia en MongoDB
+    await usuario.save();     
 
     res.status(201).json({
         usuario

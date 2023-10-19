@@ -1,6 +1,5 @@
 const express= require('express');
 const cors= require('cors');
-//const { dbConnection } = require('../database/config');
 const {dbConnect}= require('../config/mongo');
 
 class Server {
@@ -44,9 +43,9 @@ class Server {
         this.app.use(this.usuariosPath, require('../routes/usuarios'));
         this.app.use(this.turnosPath, require('../routes/turnos'));
         this.app.use(this.evaluacionesPath, require('../routes/evaluaciones'));
+
         //Cualquier recurso que no sea contemplado
         this.app.use(function(req, res, next) {
-            //res.status(404).send('Recurso no encontrado!');
             res.status(404).json({
                 msg: 'Recurso no encontrado'
             });
