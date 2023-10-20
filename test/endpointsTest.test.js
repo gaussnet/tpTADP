@@ -6,46 +6,13 @@ chai.use(chaiHttp);
 
 const url= 'http://localhost:3001/api';
 
-const token= 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NTFjMmJkN2RiNTM5Y2ViOTBlY2Y0NmUiLCJpYXQiOjE2OTc3NDQ3OTUsImV4cCI6MTY5Nzc1OTE5NX0.mFMvQXjQ2Ml6gGXUexeHxZR5FGZm0N5krusix7-MyUg';
+const token= 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NTFjMmJkN2RiNTM5Y2ViOTBlY2Y0NmUiLCJpYXQiOjE2OTc4MTI3MzgsImV4cCI6MTY5NzgyNzEzOH0.hrt9L3dI74eXkTpNXCSKrpqwUlJigHnRdFUMshBo0Gc';
 const matricula= 'mls765'
 const matriculaNoExistente= 'aaa000'
 const turnoYaExistente= "2023-10-24T11:10:00"
 const turnoNuevo= "2023-10-25T11:20:00";
 const idTurno='6531882ab76afa48f17ffcc1'
-/*
-describe('Prueba post evaluaciones', () => {
-    it('prueba post eval', (done) => {
-        chai.request(url)
-        .post('/api/evaluaciones')
-        .send({data:'hola'})
-        .end((err, res) => {
-            console.log(res.body);
-            expect(res).to.have.status(200)
-            done()
-        })
-    })
-})
-*/
 
-//const app= require('../models/server').app;
-
-/*
-describe('Prueba endpoints', () => {
-    it('Prueba get evaluaciones', (done) => {
-        chai.request('http://localhost:3001/api/evaluaciones')
-            .get('/')
-            .end((err, res) => {
-                console.log('A');
-                console.log(res.body);
-                //chai.assert.equal(res.body, {data: 'Hola evaluación'});
-                expect(res.body).to.have.property('data', 'Hola evaluación');
-                //expect(res.body).to.equal({data: 'Hola evaluación'});
-                done();
-            })
-        console.log('B');
-    })
-})
-*/
 
 describe('Pruebas turnos', () => {
     it('Prueba get turnos libres', (done) => {
@@ -173,5 +140,168 @@ describe('Pruebas evaluaciones', () => {
                 done();
             })
     })
+    it('Prueba post evaluacion', (done) => {
+        chai.request(url)
+            .post('/evaluaciones')
+            .set('x-token', token)
+            .send({
+                "matricula":"mls765",
+                "pruebas": {
+                    "pruebaFrenos": {
+                        "tipo": "FRENOS",
+                        "puntaje": 8
+                    },
+                    "pruebaSuspension": {
+                        "tipo": "SUSPENSION",
+                        "puntaje": 5
+                    },
+                    "pruebaLuces": {
+                        "tipo": "LUCES",
+                        "puntaje": 9
+                    },
+                    "pruebaMotor": {
+                        "tipo": "MOTOR",
+                        "puntaje": 4
+                    },
+                    "pruebaAlineacion": {
+                        "tipo": "ALINEACION",
+                        "puntaje": 6
+                    },
+                    "pruebaContaminacion": {
+                        "tipo": "CONTAMINACION",
+                        "puntaje": 9
+                    },
+                    "pruebaTrenDelantero": {
+                        "tipo": "TREN_DELANTERO",
+                        "puntaje": 5
+                    },
+                    "pruebaTrenTrasero": {
+                        "tipo": "TREN_TRASERO",
+                        "puntaje": 10
+                    },
+                    "pruebaCinturones": {
+                        "tipo": "CINTURONES",
+                        "puntaje": 5
+                    },
+                    "pruebaMatafuego": {
+                        "tipo": "MATAFUEGO",
+                        "puntaje": 9
+                    }
+                },
+                "observaciones": "Tren delantero defectuoso" 
+            })
+            .end((err, res) => {
+                //console.log(res.body);
+                expect(res).to.have.status(201);
+                done();
+            })
+    }).timeout(3000);
+    it('Prueba post evaluacion sin token', (done) => {
+        chai.request(url)
+            .post('/evaluaciones')
+            .send({
+                "matricula":"mls765",
+                "pruebas": {
+                    "pruebaFrenos": {
+                        "tipo": "FRENOS",
+                        "puntaje": 8
+                    },
+                    "pruebaSuspension": {
+                        "tipo": "SUSPENSION",
+                        "puntaje": 5
+                    },
+                    "pruebaLuces": {
+                        "tipo": "LUCES",
+                        "puntaje": 9
+                    },
+                    "pruebaMotor": {
+                        "tipo": "MOTOR",
+                        "puntaje": 4
+                    },
+                    "pruebaAlineacion": {
+                        "tipo": "ALINEACION",
+                        "puntaje": 6
+                    },
+                    "pruebaContaminacion": {
+                        "tipo": "CONTAMINACION",
+                        "puntaje": 9
+                    },
+                    "pruebaTrenDelantero": {
+                        "tipo": "TREN_DELANTERO",
+                        "puntaje": 5
+                    },
+                    "pruebaTrenTrasero": {
+                        "tipo": "TREN_TRASERO",
+                        "puntaje": 10
+                    },
+                    "pruebaCinturones": {
+                        "tipo": "CINTURONES",
+                        "puntaje": 5
+                    },
+                    "pruebaMatafuego": {
+                        "tipo": "MATAFUEGO",
+                        "puntaje": 9
+                    }
+                },
+                "observaciones": "Tren delantero defectuoso" 
+            })
+            .end((err, res) => {
+                //console.log(res.body);
+                expect(res).to.have.status(401);
+                done();
+            })
+    }).timeout(3000);
+    it('Prueba post evaluacion faltan campos', (done) => {
+        chai.request(url)
+            .post('/evaluaciones')
+            .set('x-token', token)
+            .send({
+                "matricula":"mls765",
+                "pruebas": {
+                    "pruebaSuspension": {
+                        "tipo": "SUSPENSION",
+                        "puntaje": 5
+                    },
+                    "pruebaLuces": {
+                        "tipo": "LUCES",
+                        "puntaje": 9
+                    },
+                    "pruebaMotor": {
+                        "tipo": "MOTOR",
+                        "puntaje": 4
+                    },
+                    "pruebaAlineacion": {
+                        "tipo": "ALINEACION",
+                        "puntaje": 6
+                    },
+                    "pruebaContaminacion": {
+                        "tipo": "CONTAMINACION",
+                        "puntaje": 9
+                    },
+                    "pruebaTrenDelantero": {
+                        "tipo": "TREN_DELANTERO",
+                        "puntaje": 5
+                    },
+                    "pruebaTrenTrasero": {
+                        "tipo": "TREN_TRASERO",
+                        "puntaje": 10
+                    },
+                    "pruebaCinturones": {
+                        "tipo": "CINTURONES",
+                        "puntaje": 5
+                    },
+                    "pruebaMatafuego": {
+                        "tipo": "MATAFUEGO",
+                        "puntaje": 9
+                    }
+                },
+                "observaciones": "Tren delantero defectuoso" 
+            })
+            .end((err, res) => {
+                //console.log(res.body);
+                expect(res).to.have.status(400);
+                done();
+            })
+    }).timeout(3000);
 })
 
