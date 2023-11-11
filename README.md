@@ -1,7 +1,7 @@
 # Trabajo Práctico Técnicas avanzadas de programación 2° cuat. 2023
 
 ### Instalación
-1. Descargar carpeta de proyecto
+1. Descargar carpeta de proyecto (git clone https://github.com/gaussnet/tpTADP.git)
 2. Crear base de datos en MongoDB
 3. Editar archivo .env
     - Obtener la url de conexión y editar la variable de entorno DB_URI en el archivo .env
