@@ -6,7 +6,7 @@ chai.use(chaiHttp);
 
 const url= 'http://localhost:3001/api';
 
-const token= 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NTFjMmJkN2RiNTM5Y2ViOTBlY2Y0NmUiLCJpYXQiOjE2OTc4MTI3MzgsImV4cCI6MTY5NzgyNzEzOH0.hrt9L3dI74eXkTpNXCSKrpqwUlJigHnRdFUMshBo0Gc';
+const token= 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NTFjMmJkN2RiNTM5Y2ViOTBlY2Y0NmUiLCJpYXQiOjE2OTkwMjA3NzMsImV4cCI6MTY5OTAzNTE3M30.vkx2jxqnZiTJ5tcWzWZlSuKzEIg4ujLltV2ZtRUSNuA';
 const matricula= 'mls765'
 const matriculaNoExistente= 'aaa000'
 const turnoYaExistente= "2023-10-24T11:10:00"
