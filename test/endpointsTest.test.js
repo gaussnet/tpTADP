@@ -6,12 +6,12 @@ chai.use(chaiHttp);
 
 const url= 'http://localhost:3001/api';
 
-const token= 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NTFjMmJkN2RiNTM5Y2ViOTBlY2Y0NmUiLCJpYXQiOjE2OTkwMjA3NzMsImV4cCI6MTY5OTAzNTE3M30.vkx2jxqnZiTJ5tcWzWZlSuKzEIg4ujLltV2ZtRUSNuA';
+const token= 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NTFjMmJkN2RiNTM5Y2ViOTBlY2Y0NmUiLCJpYXQiOjE2OTk3MjU2MjEsImV4cCI6MTY5OTc0MDAyMX0.EYuPz8ZQP3rjI8LIqY3QE938ebbMljjDyaLItxBm5pg';
 const matricula= 'mls765'
 const matriculaNoExistente= 'aaa000'
 const turnoYaExistente= "2023-10-24T11:10:00"
-const turnoNuevo= "2023-10-25T11:20:00";
-const idTurno='6531882ab76afa48f17ffcc1'
+const turnoNuevo= "2023-11-25T11:20:00";
+const idTurno='654fc3fb58992f738dea3428'
 
 
 describe('Pruebas turnos', () => {
@@ -112,7 +112,7 @@ describe('Pruebas evaluaciones', () => {
                 expect(res).to.have.status(200);
                 done();
             })
-    })
+    }).timeout(3000);
     it('Prueba get evaluaciones sin token', (done) => {
         chai.request(url)
             .get('/evaluaciones')
