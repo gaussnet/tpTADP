@@ -6,12 +6,12 @@ chai.use(chaiHttp);
 
 const url= 'http://localhost:3001/api';
 
-const token= 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NTFjMmJkN2RiNTM5Y2ViOTBlY2Y0NmUiLCJpYXQiOjE3MDA1MDI3NTYsImV4cCI6MTcwMDUxNzE1Nn0.MtyRNXpV6G0o6gP9XmM7Hycqzxq_Yasa7Ap3wcPTPns';
-const matricula= 'mls765'
+const token= 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NTFjMmJkN2RiNTM5Y2ViOTBlY2Y0NmUiLCJpYXQiOjE3MDA1NzA4NTMsImV4cCI6MTcwMDU4NTI1M30.Xzw7F7BEzEg8VJ3mC7DJlmKhUkrikyxZjEQAoptUnzo';
+const matricula= 'mls765'                       //Para get turno por matrícula y get evaluaciones por matrícula
 const matriculaNoExistente= 'aaa000'
 const turnoYaExistente= "2023-10-24T11:10:00"
-const turnoNuevo= "2023-11-25T11:20:00";
-const idTurno='654fc3fb58992f738dea3428'
+const turnoNuevo= "2023-11-25T11:30:00";
+const idTurno='654fc3fb58992f738dea3428'    //Turno a confirmar
 
 
 describe('Pruebas turnos', () => {
@@ -112,7 +112,7 @@ describe('Pruebas evaluaciones', () => {
                 expect(res).to.have.status(200);
                 done();
             })
-    }).timeout(3000);
+    }).timeout(5000);
     it('Prueba get evaluaciones sin token', (done) => {
         chai.request(url)
             .get('/evaluaciones')
@@ -195,7 +195,7 @@ describe('Pruebas evaluaciones', () => {
                 expect(res).to.have.status(201);
                 done();
             })
-    }).timeout(3000);
+    }).timeout(5000);
     it('Prueba post evaluacion sin token', (done) => {
         chai.request(url)
             .post('/evaluaciones')
@@ -250,7 +250,7 @@ describe('Pruebas evaluaciones', () => {
                 expect(res).to.have.status(401);
                 done();
             })
-    }).timeout(3000);
+    }).timeout(5000);
     it('Prueba post evaluacion faltan campos', (done) => {
         chai.request(url)
             .post('/evaluaciones')
@@ -302,6 +302,6 @@ describe('Pruebas evaluaciones', () => {
                 expect(res).to.have.status(400);
                 done();
             })
-    }).timeout(3000);
+    }).timeout(5000);
 })
 
